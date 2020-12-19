@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         rust: [stable, nightly]
+        runtime: [native-tls, rustls]
 
     services:
       postgres:
@@ -59,7 +60,7 @@ jobs:
       uses: actions-rs/cargo@v1
       with:
         command: test
-        args: --all --all-features -- --test-threads=1
+        args: --all --features sqlite,pg,${{ matrix.runtime }} -- --test-threads=1
 
   check_fmt_and_docs:
     name: Checking fmt, clippy, and docs
